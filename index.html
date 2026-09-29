@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mantenimiento Sistema de Combustible - Doosan</title>
+    <title>Mantenimiento Sistema de Combustible - Doosan P126TI-II</title>
     <style>
         :root {
             /* Paleta solicitada */
@@ -277,7 +277,7 @@
             margin-bottom: 40px;
             background: #fdfdfd;
             border: 1px solid var(--border-color);
-            padding: 20px;
+            padding: 25px 20px;
             border-radius: 4px;
         }
 
@@ -285,7 +285,7 @@
             content: '';
             position: absolute;
             left: -40px;
-            top: 20px;
+            top: 25px;
             width: 16px;
             height: 16px;
             background-color: var(--coral);
@@ -297,6 +297,29 @@
         .timeline-step h3 {
             margin-top: 0;
             color: var(--pizarra);
+            font-size: 1.25rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .timeline-step ol {
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+
+        .timeline-step li {
+            margin-bottom: 12px;
+            color: #444;
+        }
+
+        /* Listas estándar */
+        .tech-list {
+            padding-left: 25px;
+            margin-top: 15px;
+        }
+        
+        .tech-list li {
+            margin-bottom: 8px;
         }
 
         /* Responsive */
@@ -317,77 +340,78 @@
 
     <div class="container">
         
-        <!-- BARRERA DE SEGURIDAD -->
+        <!-- ================= BARRERA DE SEGURIDAD ================= -->
         <div id="survey-container" class="panel">
             <h2>Evaluación de Seguridad Previa</h2>
             <div class="alert-bar">
-                🛑 PROTOCOLO ESTRICTO: El trabajo con diésel a alta presión exige dotación obligatoria de <strong>2 personas</strong>. Apruebe el checklist y el test para desbloquear la Pauta de Mantenimiento.
+                🛑 PROTOCOLO ESTRICTO: El trabajo con diésel a alta presión y vapores inflamables exige dotación obligatoria de <strong>2 personas</strong>. Apruebe el checklist y el test para desbloquear el Manual Técnico.
             </div>
 
             <!-- CHECKLIST DE EPP -->
-            <h4 style="color: var(--pizarra);">1. Verificación de EPP e Indumentaria</h4>
+            <h4 style="color: var(--pizarra);">1. Verificación de EPP e Indumentaria Personal</h4>
             <div class="checklist-grid">
-                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Overol:</strong> 100% algodón antiestático.</span></label>
-                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Calzado:</strong> Dieléctrico y resistente a hidrocarburos.</span></label>
-                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Manos:</strong> Guantes de nitrilo y de cabritilla.</span></label>
-                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Rostro:</strong> Antiparras o pantalla facial completa.</span></label>
-                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Cabello:</strong> Recogido estrictamente bajo cofia/casco.</span></label>
-                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Accesorios:</strong> Cero metales, anillos o relojes.</span></label>
-                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Personal:</strong> 2 operarios presentes en el área.</span></label>
+                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Overol de faena:</strong> 100% algodón antiestático, bien ajustado en puños y piernas, sin manchas de diésel.</span></label>
+                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Calzado de seguridad:</strong> Dieléctrico certificado y con suela resistente a hidrocarburos.</span></label>
+                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Protección de manos:</strong> Disponibilidad de guantes de nitrilo (químicos) y cabritilla (mecánicos).</span></label>
+                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Rostro y ojos:</strong> Gafas de seguridad herméticas o pantalla facial completa para maniobras de purga.</span></label>
+                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Restricción de cabello:</strong> En mujeres y hombres, cabello largo recogido estrictamente hacia atrás bajo cofia/casco.</span></label>
+                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Cero metales:</strong> Retiro absoluto de anillos, cadenas, collares, relojes y aros colgantes.</span></label>
+                <label class="check-item"><input type="checkbox" class="epp-check"> <span><strong>Dotación mínima:</strong> 2 operarios calificados presentes en el área antes de desarmar componentes.</span></label>
             </div>
 
             <!-- CUESTIONARIO -->
-            <h4 style="color: var(--pizarra); margin-top: 30px;">2. Evaluación de Riesgos y LOTO</h4>
+            <h4 style="color: var(--pizarra); margin-top: 35px;">2. Evaluación de Riesgos y Procedimiento Diésel</h4>
             <form id="quiz-form">
                 <div id="questions-wrapper"></div>
-                <button type="button" class="btn-action" onclick="checkGate()">Autorizar Acceso Técnico</button>
+                <button type="button" class="btn-action" onclick="checkGate()">Validar Seguridad y Acceder al Manual</button>
             </form>
             <div id="error-msg" onclick="loadQuiz()">ACCESO DENEGADO. Faltan requerimientos o respuestas incorrectas. Click para reiniciar.</div>
         </div>
 
-        <!-- MANUAL TÉCNICO -->
+        <!-- ================= MANUAL TÉCNICO ================= -->
         <div id="manual-container">
 
-            <div class="figure-box" style="border: none; background: transparent; margin-top: 0;">
+            <div class="figure-box" style="border: none; background: transparent; padding: 0; margin-top: 0;">
                 <img src="generador_sdmo.jpg" alt="Generador SDMO D330">
+                <p style="margin-top: 10px;"><em>Figura 0: Grupo Electrógeno Kohler SDMO D330 (Motor Doosan P126TI-II).</em></p>
             </div>
 
             <!-- 1. ENERGÍAS RESIDUALES -->
             <div class="panel">
-                <h2>1. LOTO y Energías Residuales</h2>
-                <p>El Bloqueo (LOTO) en el panel es la medida base. Para el Sistema 1, controle las siguientes energías residuales:</p>
+                <h2>1. LOTO y Control de Energías Residuales</h2>
+                <p>El Bloqueo y Etiquetado (LOTO) aísla las fuentes principales. Para el Sistema de Combustible, deben identificarse y controlarse exhaustivamente las siguientes energías residuales y riesgos asociados:</p>
                 <div class="energy-grid">
                     <div class="energy-item">
-                        <strong>💨 Energía de Presión (160 - 220 kg/cm²)</strong>
-                        <p>Cañerías presurizadas. <em>Riesgo:</em> Inyección subcutánea. <em>Control:</em> Despresurizar aflojando tornillos de purga con paño grueso. Nunca exponer piel a chorros.</p>
+                        <strong>💨 Energía de Presión Hidráulica (160 - 220 kg/cm²)</strong>
+                        <p>Las cañerías y la bomba Zexel conservan presión residual extrema capaz de perforar la piel. <em>Control:</em> Despresurizar envolviendo los tornillos de purga con paño grueso. Jamás exponer la piel a chorros atomizados.</p>
                     </div>
                     <div class="energy-item">
-                        <strong>🔥 Energía Térmica y Fuego</strong>
-                        <p>Inyectores cerca del escape (>500°C). <em>Riesgo:</em> Ignición de diésel. <em>Control:</em> Permiso de Trabajo en Caliente denegado. Esperar enfriamiento.</p>
+                        <strong>🔥 Energía Térmica y Riesgo de Incendio</strong>
+                        <p>Los inyectores se alojan cerca del colector de escape (>500°C). <em>Control:</em> Queda estrictamente <strong>denegado el Permiso de Trabajo en Caliente</strong>. Esperar enfriamiento del bloque. Extintor PQS a la mano.</p>
                     </div>
                     <div class="energy-item">
                         <strong>🔄 Energía Rotacional (Inercia)</strong>
-                        <p>Ventilador y turbo girando tras apagado. <em>Control:</em> Prohibido acercarse a la zona frontal hasta confirmar detención total.</p>
+                        <p>El ventilador del radiador y el turbocompresor continúan girando tras el apagado. <em>Control:</em> Prohibido intervenir zonas frontales (filtros) hasta confirmar la detención total absoluta de componentes inerciales.</p>
                     </div>
                     <div class="energy-item">
-                        <strong>⚡ Energía Eléctrica y Partida</strong>
-                        <p><em>Riesgo:</em> Arranque intempestivo al barrar el motor. <em>Control:</em> Firma de ART. Desconectar y bloquear borne negativo de batería 24V.</p>
+                        <strong>⚡ Energía Eléctrica y Partida Inesperada</strong>
+                        <p>Riesgo de autoencendido o accionamiento eléctrico al "barrar" el motor manualmente para alinear la bomba. <em>Control:</em> Desconectar físicamente el borne negativo (-) de las baterías de 24V y bloquear.</p>
                     </div>
                     <div class="energy-item">
-                        <strong>⚖️ Energía Gravitacional</strong>
-                        <p>Componentes pesados. <em>Control:</em> Uso de tecles certificados para izaje de la bomba de inyección Zexel.</p>
+                        <strong>⚖️ Energía Gravitacional e Izaje</strong>
+                        <p>La bomba de inyección Zexel en línea es un componente pesado. <em>Control:</em> Uso obligatorio de tecles y eslingas certificadas para maniobras de desmontaje/acople seguro.</p>
                     </div>
                     <div class="energy-item">
-                        <strong>☁️ Riesgo Químico (Atmósfera)</strong>
-                        <p>Vapores de diésel. <em>Control:</em> Leer HDS. Garantizar ventilación mecánica en el recinto. Contención según MARPOL.</p>
+                        <strong>☁️ Riesgo Químico (Ventilación y Atmósfera)</strong>
+                        <p>Los vapores de diésel se acumulan en zonas bajas. <em>Control:</em> Consultar la <strong>Hoja de Datos de Seguridad (HDS)</strong>. Garantizar ventilación mecánica en el recinto. Manejo según Anexo I MARPOL.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- 2. CRITICIDAD -->
+            <!-- 2. CRITICIDAD FMECA -->
             <div class="panel">
                 <h2>2. Análisis FMECA (Prioridad de Riesgo)</h2>
-                <p>Cálculo de Criticidad: <strong>NPR = Severidad (S) × Ocurrencia (O) × Detección (D)</strong>.</p>
+                <p>Cálculo de Criticidad basado en: <strong>NPR = Severidad (S) × Ocurrencia (O) × Detección (D)</strong>.</p>
                 <div class="table-wrapper">
                     <table>
                         <tr>
@@ -397,61 +421,61 @@
                             <th>D</th>
                             <th>NPR</th>
                             <th>Clasificación</th>
-                            <th>Efecto Global en el Sistema</th>
+                            <th>Modo de Falla y Efecto Global en el Sistema</th>
                         </tr>
                         <tr>
-                            <td>Prefiltro separador agua</td>
+                            <td><strong>Prefiltro separador agua</strong></td>
                             <td>8</td>
                             <td>5</td>
                             <td>8</td>
                             <td class="npr-high">320</td>
-                            <td>Crítico</td>
-                            <td>Falla oculta. Pasa agua a los inyectores causando corrosión y gripado severo.</td>
+                            <td>Alto Riesgo</td>
+                            <td>Falla latente por acumulación de agua sin purgar. Permite paso de agua a los inyectores causando corrosión y gripado severo.</td>
                         </tr>
                         <tr>
-                            <td>Inyectores</td>
+                            <td><strong>Inyectores (5 orificios / 2 resortes)</strong></td>
                             <td>7</td>
                             <td>4</td>
                             <td>4</td>
                             <td class="npr-high">112</td>
                             <td>Crítico</td>
-                            <td>Mala atomización, sobretemperatura en cilindros y riesgo de fundición de pistón.</td>
+                            <td>Tobera carbonizada o goteo por resorte vencido (presión inferior a 160/220 kg/cm²). Mala atomización, humo negro, daño térmico al pistón.</td>
                         </tr>
                         <tr>
-                            <td>Bomba Inyección Zexel</td>
+                            <td><strong>Bomba Inyección (Zexel línea P)</strong></td>
                             <td>8</td>
                             <td>3</td>
                             <td>3</td>
                             <td class="npr-high">72</td>
                             <td>Crítico</td>
-                            <td>Pérdida de propulsión o parada intempestiva del grupo electrógeno.</td>
+                            <td>Desgaste de plungers/émbolos por diésel contaminado. Pérdida de propulsión o parada intempestiva del grupo electrógeno.</td>
                         </tr>
                         <tr>
-                            <td>Filtros de Diésel</td>
+                            <td><strong>Filtros de Combustible</strong></td>
                             <td>6</td>
                             <td>6</td>
                             <td>2</td>
                             <td class="npr-high">72</td>
                             <td>Crítico</td>
-                            <td>Restricción de caudal, cavitación en bomba y pérdida de potencia.</td>
+                            <td>Saturación del elemento filtrante de papel. Restricción de caudal, cavitación en bomba y pérdida progresiva de potencia.</td>
                         </tr>
                         <tr>
-                            <td>Línea de Retorno</td>
+                            <td><strong>Línea de Retorno</strong></td>
                             <td>5</td>
                             <td>3</td>
                             <td>2</td>
                             <td class="npr-low">30</td>
                             <td>No Crítico</td>
-                            <td>Fuga exterior sin presión. Riesgo de incendio pero no detiene el motor de inmediato.</td>
+                            <td>Fisura por fatiga de vibración. Fuga exterior sin presión, genera riesgo ambiental y de incendio pero no detiene el motor.</td>
                         </tr>
                         <tr>
-                            <td>Estanque Diario</td>
+                            <td><strong>Estanque Diario (470 L)</strong></td>
                             <td>3</td>
                             <td>2</td>
                             <td>2</td>
                             <td class="npr-low">12</td>
                             <td>No Crítico</td>
-                            <td>Condensación de agua. Se mitiga mediante purga regular del grifo de fondo.</td>
+                            <td>Condensación de agua en espacio vacío. Ensucia el sistema a largo plazo. Se mitiga mediante purga regular del fondo.</td>
                         </tr>
                     </table>
                 </div>
@@ -459,108 +483,165 @@
 
             <div class="figure-box">
                 <img src="foto_combustible_esquema.png" alt="Esquema de Combustible">
-                <p><em>Figura 1: Flujo del sistema de alimentación de combustible P126TI-II.</em></p>
+                <p style="margin-top: 10px;"><em>Figura 1: Diagrama de flujo del sistema de alimentación de combustible Doosan P126TI-II.</em></p>
             </div>
 
-            <!-- 3. PLANIFICACIÓN -->
+            <!-- 3. PLANIFICACIÓN Y HERRAMIENTAS -->
             <div class="panel">
-                <h2>3. Planificación de Tareas y Herramientas</h2>
+                <h2>3. Planificación, Horas-Hombre y Herramientas</h2>
                 
                 <div class="table-wrapper">
                     <table>
                         <tr>
                             <th>Trabajo a Realizar</th>
-                            <th>Frecuencia</th>
-                            <th>Dotación</th>
-                            <th>HH Totales</th>
+                            <th>Frecuencia Mantenimiento</th>
+                            <th>Dotación Mínima</th>
+                            <th>Duración (h)</th>
+                            <th>Total HH</th>
                         </tr>
                         <tr>
-                            <td>Drenaje agua separador</td>
-                            <td>Cada 200 h</td>
+                            <td>Drenaje de agua del separador y purga</td>
+                            <td>Cada 200 horas</td>
                             <td>2 Operarios</td>
+                            <td>0.5 h</td>
                             <td>1.0 HH</td>
                         </tr>
                         <tr>
-                            <td>Cambio filtros y limpieza tamiz</td>
-                            <td>Cada 400 h</td>
+                            <td>Reemplazo de cartuchos y limpieza de tamiz</td>
+                            <td>Cada 400 horas</td>
                             <td>2 Operarios</td>
+                            <td>1.0 h</td>
                             <td>2.0 HH</td>
                         </tr>
                         <tr>
-                            <td>Calibración 6 inyectores</td>
+                            <td>Desmontaje, prueba y calibración 6 inyectores</td>
                             <td>1200 h / Correctivo</td>
                             <td>2 Operarios</td>
+                            <td>3.0 h</td>
                             <td>6.0 HH</td>
                         </tr>
                     </table>
-                    <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">* Las Horas-Hombre (HH) han sido estimadas mediante medición directa en el Laboratorio de Máquinas.</p>
+                    <p style="font-size: 0.85rem; color: #555; margin-top: 8px;">* Nota: Las Horas-Hombre (HH) han sido estimadas mediante medición directa y análisis de intervenciones previas en el Laboratorio de Máquinas.</p>
                 </div>
 
-                <p><strong>Equipamiento Técnico y Torques:</strong></p>
-                <ul>
-                    <li><strong>Genéricas:</strong> Llaves punta corona (10, 12, 14, 17, 19 mm), cubeta antiderrame.</li>
-                    <li><strong>Específicas:</strong> Llave de cinta/cadena para filtros, extractor de inyectores.</li>
-                    <li><strong>Calibración Vigente:</strong> Pop Tester (Banco Inyectores 0-400 kg/cm²), Torquímetro (1.0 - 10.0 kg·m).</li>
-                    <li><strong>Torques Críticos:</strong> Porta-inyector a culata (1.0 kg·m), Cañerías Alta Presión (3.0 a 4.0 kg·m), Pernos acople bomba (6.0 kg·m).</li>
+                <h3 style="color: var(--pizarra); margin-top: 25px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Equipamiento Técnico y Torques Específicos</h3>
+                <ul class="tech-list">
+                    <li><strong>Herramientas Genéricas:</strong> Llaves punta y corona métricas (10, 12, 14, 17 y 19 mm), destornilladores planos, cubeta receptora antiderrame, paños limpios sin hilachas.</li>
+                    <li><strong>Herramientas Específicas (Catálogo Fabricante):</strong>
+                        <ul>
+                            <li>Llave de correa/cadena para desenroscar filtros (Herramienta estándar o Part No. EF.120-208).</li>
+                            <li>Extractor de toberas e inyectores (Part No. EF.123-082 Nozzle tube extractor).</li>
+                            <li>Herramienta de inserción de tubos de tobera (Part No. EF.123-082 Nozzle tube insert ass'y).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Instrumental con Calibración Vigente:</strong>
+                        <ul>
+                            <li><strong>Banco de Prueba de Inyectores (Pop Tester):</strong> Rango 0-400 kg/cm² con manómetro calibrado para contrastar presiones de apertura de 1ª etapa (160 kg/cm²) y 2ª etapa (220 kg/cm²).</li>
+                            <li><strong>Llave Dinamométrica (Torquímetro):</strong> Rango 1.0 a 10.0 kg·m con certificado vigente.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3 style="color: var(--pizarra); margin-top: 20px; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Valores Críticos de Apriete (Torque)</h3>
+                <ul class="tech-list">
+                    <li>Tuercas de fijación del porta-inyector a culata (espárragos M6 8.8T): <strong>1.0 kg·m</strong>.</li>
+                    <li>Tuercas de unión de cañería de alta presión (Llave 17 mm): <strong>3.0 kg·m</strong>.</li>
+                    <li>Tuercas de unión de cañería de alta presión (Llave 19 mm): <strong>4.0 kg·m</strong>.</li>
+                    <li>Tornillos huecos (Banjo) de la línea de retorno: <strong>1.0 a 1.5 kg·m</strong>.</li>
+                    <li>Pernos de acople de bomba de inyección: <strong>6.0 kg·m</strong>.</li>
                 </ul>
             </div>
 
             <div class="figure-box">
                 <img src="foto_inyector_despiece.png" alt="Despiece de Inyector">
-                <p><em>Figura 2: Conjunto porta-inyector de 2 resortes.</em></p>
+                <p style="margin-top: 10px;"><em>Figura 2: Conjunto porta-inyector de 2 resortes y tobera de inyección directa.</em></p>
             </div>
 
             <!-- 4. PROCEDIMIENTO (TIMELINE) -->
             <div class="panel">
-                <h2>4. Procedimiento Paso a Paso</h2>
+                <h2>4. Procedimiento Técnico Paso a Paso</h2>
                 
                 <div class="timeline">
+                    <!-- Fase 1 -->
                     <div class="timeline-step">
-                        <h3>Fase 1: ART, LOTO y Drenaje</h3>
-                        <p>Revisar y firmar el ART y consultar la HDS del diésel. Cerrar y bloquear con candado LOTO la válvula del estanque. Desconectar borne negativo de batería 24V. Colocar cubeta bajo prefiltro separador, girar válvula inferior 2 vueltas, drenar agua hasta ver diésel limpio. Abrir grifo de fondo del estanque para purgar condensación.</p>
+                        <h3>Fase 1: Análisis de Riesgo, Bloqueo y Drenaje Inicial</h3>
+                        <ol>
+                            <li>Revisar y firmar el <strong>Análisis de Riesgos del Trabajo (ART)</strong> y Permiso de Trabajo. Consultar obligatoriamente la <strong>Hoja de Datos de Seguridad (HDS)</strong> del combustible diésel.</li>
+                            <li>Ejecutar Protocolo LOTO: Cerrar la válvula de bola en la salida del estanque de servicio diario. Colocar candado y tarjeta de seguridad.</li>
+                            <li>Desconectar el borne negativo (-) de la batería de 24V para aislar energía eléctrica y prevenir arranque por "barrado".</li>
+                            <li>Colocar cubeta bajo el prefiltro separador de agua. Girar la válvula manual inferior en sentido antihorario 2 a 3 vueltas.</li>
+                            <li>Drenar agua acumulada y lodos hasta observar flujo de diésel limpio. Apretar válvula a mano suavemente para no dañar los hilos plásticos.</li>
+                            <li>Abrir el grifo inferior del estanque de servicio para purgar la condensación de fondo.</li>
+                        </ol>
                     </div>
 
                     <div class="figure-box" style="margin-top: 0;">
                         <img src="foto_filtro_combustible.png" alt="Filtro de Combustible">
-                        <p><em>Figura 3: Prefiltro con tapón de purga inferior.</em></p>
+                        <p style="margin-top: 10px;"><em>Figura 3: Filtro de combustible con separador y tapón de drenaje inferior.</em></p>
                     </div>
 
+                    <!-- Fase 2 -->
                     <div class="timeline-step">
-                        <h3>Fase 2: Cambio de Filtros y Malla</h3>
-                        <p>Limpiar soporte del filtro. Desenroscar cartucho con llave de cinta. Lubricar sello nuevo con diésel y pre-llenar filtro. Apretar a mano y dar 1/2 a 3/4 de vuelta (no sobreapretar). Extraer perno banjo de la entrada de la bomba de alimentación, retirar el tamiz (strainer) interno, limpiar con aire e instalar con golillas de cobre nuevas.</p>
+                        <h3>Fase 2: Reemplazo de Filtros y Malla de Bomba (Strainer)</h3>
+                        <ol>
+                            <li>Limpiar cuidadosamente la cabeza del soporte del filtro de combustible para evitar ingreso de partículas.</li>
+                            <li>Utilizando la llave de cinta, desenroscar el cartucho usado girándolo en sentido antihorario. Desechar el sello de goma viejo.</li>
+                            <li>Limpiar la superficie de asiento con un paño limpio sin hilachas.</li>
+                            <li>Lubricar la junta de goma del nuevo cartucho con diésel limpio. Llenar el nuevo filtro con combustible antes de instalarlo para minimizar la entrada de aire al sistema.</li>
+                            <li>Enroscar el filtro a mano hasta hacer contacto y ajustar <strong>1/2 a 3/4 de vuelta adicional</strong>. No sobreapretar.</li>
+                            <li>Extraer el perno banjo de la entrada de la bomba de alimentación (feed pump). Retirar el tamiz de malla metálica (strainer), sopletear con aire comprimido, lavar en diésel e instalar con golillas de cobre nuevas.</li>
+                        </ol>
                     </div>
 
                     <div class="figure-box" style="margin-top: 0;">
                         <img src="foto_bomba_cebador.png" alt="Cebador y Tamiz">
-                        <p><em>Figura 4: Bomba de alimentación y cebador manual.</em></p>
+                        <p style="margin-top: 10px;"><em>Figura 4: Bomba de alimentación de combustible, cebador manual y ubicación del tamiz interior.</em></p>
                     </div>
 
+                    <!-- Fase 3 -->
                     <div class="timeline-step">
-                        <h3>Fase 3: Inyectores y Alta Presión</h3>
-                        <p>Desconectar retornos. Despresurizar y soltar cañerías de alta presión (riesgo inyección subcutánea) con llaves 17/19mm. Extraer inyectores. En el Pop Tester, probar estanqueidad a 200 bar y verificar presiones de apertura (160 y 220 kg/cm²). Reinstalar con sellos de cobre (0.5 mm). Torque culata: 1.0 kg·m.</p>
+                        <h3>Fase 3: Mantenimiento y Calibración de Inyectores</h3>
+                        <ol>
+                            <li>Desconectar los tornillos huecos de la línea de retorno superior.</li>
+                            <li>Aflojar las cañerías rígidas de alta presión en el inyector y bomba usando llave de 17/19 mm. Tapar cañerías con protectores plásticos.</li>
+                            <li>Retirar las tuercas del flange de fijación (M6). Extraer con extractor especializado el porta-inyector de la culata.</li>
+                            <li>Verificar que los 5 orificios de la tobera estén limpios. Montar inyector en el <strong>Pop Tester</strong>. Comprobar estanqueidad a 200 bar (cero goteo) y validar presión de apertura inicial a <strong>160 kg/cm²</strong> y secundaria a <strong>220 kg/cm²</strong>.</li>
+                            <li>Reinstalar inyector con anillo de sello de cobre nuevo (0.5 mm) en el fondo del alojamiento.</li>
+                            <li>Apretar tuercas de sujeción a culata con torquímetro a <strong>1.0 kg·m</strong>.</li>
+                            <li>Conectar cañerías y dar torque a <strong>3.0 a 4.0 kg·m</strong> según la tuerca. Conectar línea de retorno (1.0 - 1.5 kg·m).</li>
+                        </ol>
                     </div>
 
+                    <!-- Fase 4 -->
                     <div class="timeline-step">
-                        <h3>Fase 4: Purga y Gestión de Residuos</h3>
-                        <p>Abrir válvula del estanque. Aflojar tornillos de purga en filtro y bomba. Bombear cebador manual hasta que fluya sin burbujas. <strong>Gestión MARPOL:</strong> Disponer filtros y paños en tambores de Residuos Peligrosos (RESPEL). Prohibido verter en sentinas.</p>
+                        <h3>Fase 4: Sangrado, Purga y Gestión Ambiental (MARPOL)</h3>
+                        <ol>
+                            <li>Abrir la válvula de suministro del estanque diario.</li>
+                            <li>Aflojar los tornillos de purga de aire ubicados en la parte superior del cuerpo del filtro y en la bomba de inyección.</li>
+                            <li>Desenroscar y accionar el bombín cebador manual (priming pump) de forma repetitiva.</li>
+                            <li>Bombear de manera continua hasta que el diésel fluya absolutamente libre de burbujas por los tornillos de sangrado.</li>
+                            <li>Cerrar firmemente los tornillos de purga mientras se mantiene bombeando, luego asegurar la tapa del cebador manual en su posición hermética.</li>
+                            <li><strong>Gestión de Residuos:</strong> Todo filtro, sello y paño contaminado con hidrocarburos debe ser contenido en bandejas y dispuesto en tambores de Residuos Peligrosos (RESPEL). Conforme al <strong>Anexo I del Convenio MARPOL</strong>, queda estrictamente prohibido su vertimiento a sentinas, alcantarillas o canales abiertos.</li>
+                        </ol>
                     </div>
                 </div>
             </div>
 
-            <!-- 5. CHECKLIST PUESTA EN MARCHA -->
+            <!-- 5. CHECKLIST DE PUESTA EN MARCHA -->
             <div class="panel">
-                <h2>5. Comisionamiento (Puesta en Marcha)</h2>
-                <div class="checklist-grid">
-                    <label class="check-item"><input type="checkbox"> <span>Inspección 360°: herramientas retiradas.</span></label>
-                    <label class="check-item"><input type="checkbox"> <span>Residuos en RESPEL según MARPOL.</span></label>
-                    <label class="check-item"><input type="checkbox"> <span>Válvula de estanque diario ABIERTA.</span></label>
-                    <label class="check-item"><input type="checkbox"> <span>Tornillos de purga y cebador cerrados.</span></label>
-                    <label class="check-item"><input type="checkbox"> <span>Retiro formal de LOTO.</span></label>
-                    <label class="check-item"><input type="checkbox"> <span>Baterías conectadas (Positivo primero).</span></label>
-                    <label class="check-item"><input type="checkbox"> <span>Arranque en modo MANUAL.</span></label>
-                    <label class="check-item"><input type="checkbox"> <span>Sin fugas en cañerías alta presión.</span></label>
-                    <label class="check-item"><input type="checkbox"> <span>Gases de escape sin humo negro.</span></label>
-                    <label class="check-item"><input type="checkbox"> <span>Firma de cierre en ART y Permiso.</span></label>
+                <h2>✅ 5. Lista de Verificación de Re-comisionamiento</h2>
+                <p>Valide visualmente cada paso de esta cuadrícula antes de declarar el equipo operativo y retornar el mando al panel.</p>
+                <div class="checklist-grid" style="grid-template-columns: 1fr;">
+                    <label class="check-item"><input type="checkbox"> <span><strong>1. Área Despejada:</strong> Inspección 360° completada; herramientas y bandejas de derrame retiradas del área del motor y tableros.</span></label>
+                    <label class="check-item"><input type="checkbox"> <span><strong>2. Disposición Ambiental:</strong> Manejo de residuos finalizado en contenedores RESPEL certificados según normativas MARPOL.</span></label>
+                    <label class="check-item"><input type="checkbox"> <span><strong>3. Suministro de Fluido:</strong> Válvula de salida del estanque de servicio diario completamente en posición ABIERTA.</span></label>
+                    <label class="check-item"><input type="checkbox"> <span><strong>4. Sellado del Circuito:</strong> Tornillos de purga de aire y bomba cebadora manual cerrados y apretados firmemente sin goteo.</span></label>
+                    <label class="check-item"><input type="checkbox"> <span><strong>5. Desbloqueo LOTO:</strong> Retiro formal de candados y tarjetas de seguridad en válvulas y sistema eléctrico por personal a cargo.</span></label>
+                    <label class="check-item"><input type="checkbox"> <span><strong>6. Re-energización:</strong> Baterías de 24V conectadas (Conectar borne positivo [+] primero, borne negativo [-] al final para evitar arcos).</span></label>
+                    <label class="check-item"><input type="checkbox"> <span><strong>7. Arranque MANUAL:</strong> Ejecutar partida desde el controlador. Confirmar arranque suave (indica correcta purga de aire) y desenganche del partidor.</span></label>
+                    <label class="check-item"><input type="checkbox"> <span><strong>8. Estanqueidad Dinámica:</strong> Revisar con linterna, bajo la presión de trabajo del motor, ausencia absoluta de fugas en cañerías rígidas, sellos de inyectores y filtro.</span></label>
+                    <label class="check-item"><input type="checkbox"> <span><strong>9. Verificación de Combustión:</strong> Ausencia de humo negro persistente en chimenea y estabilización a 1500 RPM / 50 Hz.</span></label>
+                    <label class="check-item"><input type="checkbox"> <span><strong>10. Cierre Documental:</strong> Firmas de cierre en Análisis de Riesgo del Trabajo (ART) y término del Permiso de Trabajo. Operador deja panel en modo AUTO.</span></label>
                 </div>
             </div>
 
@@ -569,16 +650,16 @@
 
     <script>
         const allQuestions = [
-            { q: "¿Cuál es el riesgo al aflojar cañerías rígidas bajo presión residual hidráulica?", options: ["Mancharse la ropa", "Inyección subcutánea de diésel en tejidos", "Ruido molesto"], ans: 1 },
-            { q: "Antes de desarmar la bomba, ¿cuál es el paso obligatorio para evitar arranque inesperado al 'barrar' el motor?", options: ["Cerrar estanque", "Abrir purga", "Desconectar y bloquear borne negativo de batería"], ans: 2 },
-            { q: "Para oxicorte cerca del sistema de combustible, ¿cómo procede el Permiso en Caliente?", options: ["Se aprueba si hay extintor", "Denegado estrictamente mientras el sistema esté abierto", "Se aprueba firmando el ART"], ans: 1 },
-            { q: "Tras detener el motor, ¿qué precaución rige por la Energía Rotacional?", options: ["Usar guantes", "Esperar detención total de ventilador y turbo", "Tocar bocina"], ans: 1 },
-            { q: "Al desmontar la bomba de inyección Zexel, ¿cómo se gestiona la Energía Gravitacional?", options: ["A pulso", "Usando tecles y eslingas certificadas para izaje", "Con cuerdas comunes"], ans: 1 },
-            { q: "Según MARPOL y la HDS, ¿dónde van los filtros y trapos con diésel?", options: ["Basurero común", "Tambores rotulados de Residuos Peligrosos (RESPEL)", "Sentina"], ans: 1 },
-            { q: "Al montar el nuevo filtro de combustible en su base:", options: ["Usar palanca", "Lubricar sello, ajustar a mano y dar 1/2 a 3/4 vuelta", "Apretar al máximo"], ans: 1 },
-            { q: "¿Por qué se prohíbe ropa de fibra sintética al intervenir diésel?", options: ["Se ensucia", "Genera estática que puede provocar ignición", "No es cómoda"], ans: 1 },
-            { q: "¿Cuántas personas deben conformar la cuadrilla de mantenimiento?", options: ["1 persona", "2 personas calificadas", "3 personas"], ans: 1 },
-            { q: "¿Qué documento orienta sobre el manejo químico ante un derrame de diésel?", options: ["Manual de partes", "Hoja de Datos de Seguridad (HDS/MSDS)", "Catálogo de pintura"], ans: 1 }
+            { q: "¿Cuál es el riesgo personal más grave al aflojar cañerías rígidas bajo presión residual hidráulica (160-220 kg/cm²)?", options: ["Mancharse la ropa con diésel", "Inyección subcutánea de diésel tóxico en los tejidos", "Pérdida de presión en el manómetro"], ans: 1 },
+            { q: "Antes de desarmar la bomba, ¿cuál es el paso obligatorio para evitar un arranque inesperado al 'barrar' o girar mecánicamente el motor?", options: ["Cerrar la válvula del estanque de combustible", "Abrir el grifo de purga de agua", "Desconectar y aplicar LOTO en el borne negativo de la batería"], ans: 2 },
+            { q: "En caso de requerir uso de oxicorte cerca de las cañerías de combustible, ¿cómo procede el Permiso de Trabajo en Caliente?", options: ["Se aprueba si se cuenta con un extintor PQS a mano", "Queda estrictamente denegado en la zona mientras el circuito esté abierto", "Se aprueba automáticamente firmando el ART"], ans: 1 },
+            { q: "En relación a las energías residuales, tras detener el motor, ¿qué precaución inercial rige antes de intervenir el área frontal?", options: ["Desconectar los cables del panel rápidamente", "Esperar la detención total absoluta del ventilador y el turbocompresor", "Acelerar el proceso usando las manos con guantes gruesos"], ans: 1 },
+            { q: "Al tener que desmontar la pesada bomba de inyección Zexel de su bancada, ¿cómo se controla la Energía Gravitacional?", options: ["Sosteniéndola a pulso entre ambos operarios de la dotación", "Usando tecles y eslingas certificadas para izaje seguro", "Apoyándola sobre soportes de madera improvisados"], ans: 1 },
+            { q: "Según el Anexo I del convenio MARPOL y la HDS, ¿dónde deben disponerse los filtros y trapos empapados en diésel?", options: ["En el basurero municipal o industrial general", "En tambores cerrados y rotulados de Residuos Peligrosos (RESPEL)", "Lavar sobre las sentinas para que se decante el aceite"], ans: 1 },
+            { q: "Al montar el nuevo cartucho de filtro de combustible en su soporte, el procedimiento técnico correcto es:", options: ["Usar palanca de fuerza para asegurar el máximo sellado", "Lubricar el sello con diésel, ajustar a mano y dar 1/2 a 3/4 de vuelta adicional", "Apretar hasta que se deforme el labio de goma del sello"], ans: 1 },
+            { q: "¿Por qué se exige el uso de overol 100% algodón y se prohíben las fibras sintéticas al intervenir atmósferas con vapores inflamables?", options: ["Porque las fibras sintéticas se disuelven con el hidrocarburo", "Porque el roce del nylon genera electricidad estática capaz de provocar ignición", "Para cumplir con la estética del laboratorio"], ans: 1 },
+            { q: "¿Cuántas personas deben conformar obligatoriamente la dotación para ejecutar este mantenimiento?", options: ["1 persona calificada", "2 personas calificadas presentes en el punto de trabajo en todo momento", "Depende del tiempo disponible del supervisor"], ans: 1 },
+            { q: "Previo a intervenir el sistema y generar aperturas, ¿qué documento técnico es indispensable consultar para manejo de riesgos químicos (solventes/diésel)?", options: ["El catálogo de partes del motor Doosan", "La Hoja de Datos de Seguridad (HDS/MSDS)", "El manual del regulador electrónico APM303"], ans: 1 }
         ];
 
         let currentQuestions = [];
@@ -631,7 +712,7 @@
             }
 
             if (!answeredAll) {
-                alert("Responda las 5 preguntas antes de verificar.");
+                alert("Para continuar, debe responder las 5 preguntas de evaluación.");
                 return;
             }
 

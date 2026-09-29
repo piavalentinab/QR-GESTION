@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gestión de Mantenimiento - Sistema 1: Combustible</title>
+    <style>
+        :root {
+            --primary-accent: #F67280;   /* Coral suave superior */
+            --primary-main: #C06C84;     /* Rosa viejo / magenta medio */
+            --primary-dark: #6C5B7B;     /* Morado / pizarra oscuro */
+            --bg-color: #f7f5f8;
+            --text-color: #2b2b2b;
+            --card-bg: #ffffff;
+            --danger-color: #d9534f;
+            --success-color: #4CAF50;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-main));
+            color: white;
+            text-align: center;
+            padding: 1.8rem 1rem;
+            border-bottom: 5px solid var(--primary-accent);
+            box-shadow: 0 4px 12px rgba(108, 91, 123, 0.25);
+        }
+
+        header h1 { 
+            margin: 0; 
+            font-size: 1.6rem; 
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+
+        /* BARRERA DE SEGURIDAD (CUESTIONARIO + CHECKLIST) */
+        #survey-container {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(108, 91, 123, 0.15);
+            border-top: 6px solid var(--primary-accent);
+        }
+
+        .loto-header {
+            background-color: #fff0f2;
+            color: #8a2034;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 6px solid var(--primary-main);
+            margin-bottom: 30px;
+        }
+
+        .loto-header h3 { margin-top: 0; font-size: 1.3rem; }
+
+        .question { 
+            margin-bottom: 25px; 
+            padding: 16px;
+            background-color: #faf8fa;
+            border-radius: 8px;
+            border: 1px solid #e9e2ea;
+        }
+
+        .question h4 { 
+            margin-top: 0;
+            margin-bottom: 12px; 
+            color: var(--primary-dark); 
+            font-size: 1.05rem;
+        }
+
+        .options label { 
+            display: block; 
+            margin-bottom: 10px; 
+            cursor: pointer; 
+            padding: 12px;
+            background: white;
+            border: 1px solid #dcd1dd;
+            border-radius: 6px;
+            transition: all 0.25s;
+        }
+
+        .options label:hover {
+            background: #fbf0f2;
+            border-color: var(--primary-main);
+        }
+
+        .options input {
+            margin-right: 12px;
+            transform: scale(1.2);
+            accent-color: var(--primary-main);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-main), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 16px 25px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 25px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(192, 108, 132, 0.35);
+        }
+
+        .btn-submit:hover { 
+            opacity: 0.95;
+            transform: translateY(-2px);
+        }
+
+        #error-msg {
+            display: none;
+            background-color: var(--danger-color);
+            color: white;
+            text-align: center;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(217, 83, 79, 0.3);
+        }
+
+        /* MANUAL Y SECCIONES */
+        #manual-container { display: none; }
+
+        .section-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(108, 91, 123, 0.08);
+            margin-bottom: 35px;
+            border: 1px solid #f0e9f1;
+        }
+
+        h2 { 
+            color: var(--primary-dark); 
+            border-bottom: 3px solid var(--primary-accent); 
+            padding-bottom: 10px; 
+            margin-top: 0;
+            font-size: 1.4rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            min-width: 620px; 
+        }
+        
+        th, td { 
+            border: 1px solid #e5dbe6; 
+            padding: 14px; 
+            text-align: left; 
+        }
+        
+        th { 
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary-main)); 
+            color: white; 
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) { background-color: #faf7fa; }
+
+        .img-placeholder {
+            background-color: #faf5f7;
+            border: 2px dashed var(--primary-main);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .img-placeholder img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .img-instruction {
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 0.88rem;
+            margin-bottom: 12px;
+            background: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            display: inline-block;
+            border: 1px solid var(--primary-accent);
+        }
+
+        .step-block {
+            background: #fdfbfc;
+            border-left: 5px solid var(--primary-main);
+            padding: 22px;
+            margin-bottom: 22px;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        .step-block h3 {
+            margin-top: 0;
+            color: var(--primary-dark);
+            font-size: 1.2rem;
+        }
+
+        .energy-box {
+            background-color: #fff6f7;
+            border-left: 5px solid var(--primary-accent);
+            padding: 16px;
+            margin-bottom: 16px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .checklist-container {
+            background-color: #fcf9fb;
+            border: 1px solid #e7d8e6;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            background: white;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 1px solid #ebdfee;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .check-item:hover { background-color: #f7eff5; }
+
+        .check-item input[type="checkbox"] {
+            margin-top: 4px;
+            margin-right: 14px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--primary-main);
+        }
+
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
+
+        @media (max-width: 768px) {
+            body { font-size: 15px; }
+            .container { margin: 15px auto; padding: 0 10px; }
+            .section-card { padding: 20px 14px; }
+            .btn-submit { padding: 18px 20px; font-size: 1.1rem; }
+            .options label { padding: 14px; }
+            .check-item { padding: 12px 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Mantenimiento Doosan P126TI-II</h1>
+    </header>
+
+    <div class="container">
+        
+        <!-- BARRERA DE SEGURIDAD INTERACTIVA -->
+        <div id="survey-container">
+            <div class="loto-header">
+                <h3>🛑 BARRERA DE SEGURIDAD OBLIGATORIA: SISTEMA DE COMBUSTIBLE</h3>
+                <p>El combustible diésel a alta presión y los vapores inflamables exigen máxima rigurosidad. Toda intervención debe ejecutarse obligatoriamente por <strong>2 personas</strong>. Para acceder a la documentación técnica debe aprobar la evaluación de conocimientos y confirmar el 100% de la lista de verificación de EPP.</p>
+            </div>
+
+            <!-- CHECKLIST DE EPP PREVIO -->
+            <div style="margin-bottom: 30px;">
+                <h4 style="color: var(--primary-dark); margin-bottom: 10px;">📋 Verificación Obligatoria de EPP e Indumentaria Personal</h4>
+                <div class="checklist-container" id="epp-checklist">
+                    <label class="check-item"><input type="checkbox" class="epp-check"> <strong>Overol de faena:</strong> 100% algodón antiestático, bien ajustado en puños y piernas, sin hilachas ni manchas de aceite/diésel.</label>
+                    <label class="check-item"><input type="checkbox" class="epp-check"> <strong>Calzado de seguridad:</strong> Botines dieléctricos certificados con suela antideslizante y resistente a hidrocarburos.</label>
+                    <label class="check-item"><input type="checkbox" class="epp-check"> <strong>Protección de manos:</strong> Disponibilidad y porte de guantes de nitrilo para químicos y guantes de cabritilla para ajustes mecánicos.</label>
+                    <label class="check-item"><input type="checkbox" class="epp-check"> <strong>Protección ocular/facial:</strong> Gafas de seguridad herméticas (antiparras) o pantalla facial completa para purga y desmontaje de cañerías.</label>
+                    <label class="check-item"><input type="checkbox" class="epp-check"> <strong>Restricción de cabello:</strong> En mujeres y hombres, cabello largo recogido estrictamente hacia atrás y contenido bajo cofia o gorra de seguridad.</label>
+                    <label class="check-item"><input type="checkbox" class="epp-check"> <strong>Cero metales y accesorios:</strong> Retiro absoluto de anillos, cadenas, collares, pulseras, relojes y aros colgantes.</label>
+                    <label class="check-item"><input type="checkbox" class="epp-check"> <strong>Dotación de trabajo:</strong> Dos operarios calificados presentes en el punto de trabajo antes de desarmar cualquier componente.</label>
+                </div>
+            </div>
+
+            <!-- CUESTIONARIO DINÁMICO (5 DE 10 ALEATORIAS) -->
+            <form id="quiz-form">
+                <h4 style="color: var(--primary-dark); margin-bottom: 10px;">📝 Evaluación de Seguridad y LOTO Diésel</h4>
+                <div id="questions-wrapper"></div>
+                <button type="button" class="btn-submit" onclick="checkGate()">Validar Seguridad y Desbloquear Manual</button>
+            </form>
+            <div id="error-msg" onclick="loadQuiz()">⚠️ Requerimientos incompletos. Debe responder correctamente las 5 preguntas y marcar el 100% de la lista de verificación de EPP. Haga clic aquí para reiniciar.</div>
+        </div>
+
+        <!-- MANUAL TÉCNICO COMPLETO -->
+        <div id="manual-container">
+
+            <!-- FOTO 0: GRUPO KOHLER SDMO D330 -->
+            <div class="img-placeholder" style="border: none; background: transparent; padding: 0; margin-bottom: 20px;">
+                <div class="img-instruction">📷 Reemplaza 'generador_sdmo.jpg' con la foto de la cabina azul del equipo</div>
+                <img src="generador_sdmo.jpg" alt="Grupo Electrógeno Kohler SDMO D330">
+                <p><em>Figura 0: Grupo Electrógeno Kohler SDMO D330 (Motor Doosan P126TI-II).</em></p>
+            </div>
+
+            <!-- 1. LOTO Y ENERGÍAS RESIDUALES -->
+            <div class="section-card">
+                <h2>🔒 1. Protocolo LOTO y Control de Energías Residuales</h2>
+                <p>Antes de aproximar herramientas al circuito de inyección o estanques, neutralice las energías residuales del sistema:</p>
+                
+                <div class="energy-box">
+                    <strong>💨 Energía Hidráulica y Presión Acumulada (160 - 220 kg/cm²)</strong><br>
+                    La bomba de inyección Zexel en línea y las cañerías rígidas conservan combustible bajo alta presión hidráulica residual. <br>
+                    <em>Control:</em> Cortar válvulas de suministro del estanque de servicio diario. Despresurizar el circuito aflojando lentamente los tornillos de purga de aire ubicados en la cabeza del filtro de combustible con un paño absorbente envolviendo la conexión. Nunca exponer la piel a chorros atomizados para evitar inyección subcutánea.
+                </div>
+                
+                <div class="energy-box">
+                    <strong>🔥 Energía Térmica y Peligro de Inflamación</strong><br>
+                    Los inyectores y la línea de retorno se alojan en la culata cerca del colector de escape caliente (>500°C). El punto de inflamación del diésel exige evitar derrames sobre zonas calientes.<br>
+                    <em>Control:</em> Esperar el enfriamiento completo del bloque motor. Mantener extintor de polvo químico seco (PQS / CO2) al alcance.
+                </div>
+
+                <div class="energy-box">
+                    <strong>⚡ Energía Eléctrica y Partida Intempestiva</strong><br>
+                    El solenoide de corte de combustible y el actuador electrónico del gobernador (Ghana Control DWA-2000) reciben comando de la batería de 24V.<br>
+                    <em>Control:</em> Desconectar el borne negativo (-) del banco de baterías de partida y bloquear el interruptor principal con candado y tarjeta de seguridad LOTO.
+                </div>
+            </div>
+
+            <!-- 2. CRITICIDAD FMECA -->
+            <div class="section-card">
+                <h2>📊 2. Criticidad de Subconjuntos (FMECA)</h2>
+                <div class="table-responsive">
+                    <table>
+                        <tr>
+                            <th>Subconjunto</th>
+                            <th>Clasificación</th>
+                            <th>Modo de Falla / Causa</th>
+                            <th>Efecto Local y Global en el Sistema</th>
+                        </tr>
+                        <tr>
+                            <td><strong>Bomba de Inyección (Zexel línea P)</strong></td>
+                            <td><span style="color:var(--danger-color); font-weight:bold;">Crítico</span></td>
+                            <td>Desgaste o agarrotamiento de émbolos/plungers y válvulas de entrega por combustible sucio.</td>
+                            <td>Pérdida de presión de suministro. El motor experimenta pérdida total de potencia o parada intempestiva del grupo electrógeno.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Inyectores (Tipo 5 orificios / 2 resortes)</strong></td>
+                            <td><span style="color:var(--danger-color); font-weight:bold;">Crítico</span></td>
+                            <td>Tobera carbonizada, resorte vencido o goteo de aguja (presión inferior a 160/220 kg/cm²).</td>
+                            <td>Combustión incompleta, sobretemperatura en cilindros, humo negro excesivo y riesgo de daño térmico al pistón.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Filtros de Combustible / Trampa</strong></td>
+                            <td><span style="color:var(--danger-color); font-weight:bold;">Crítico</span></td>
+                            <td>Saturación del elemento filtrante de papel por sedimentos o presencia de biomasa bacteriana.</td>
+                            <td>Restricción de caudal hacia la bomba de inyección, cavitación y detención por falla de combustible en el panel APM303.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prefiltro Separador de Agua</strong></td>
+                            <td><span style="color:var(--primary-dark); font-weight:bold;">No Crítico (Falla Oculta)</span></td>
+                            <td>Acumulación excesiva de agua en la taza decantadora sin purgar (falla latente).</td>
+                            <td>Paso de agua condensada hacia los elementos de inyección fina, causando corrosión prematura y gripado severo en los inyectores.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Estanque de Servicio Diario (470 L)</strong></td>
+                            <td><span style="color:var(--primary-dark); font-weight:bold;">No Crítico</span></td>
+                            <td>Sedimentación en el fondo o condensación por volumen de aire en el espacio vacío.</td>
+                            <td>Ensuciamiento paulatino del sistema; controlado mediante purga regular del grifo inferior del estanque.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Línea de Retorno y Rebosamiento</strong></td>
+                            <td><span style="color:var(--primary-dark); font-weight:bold;">No Crítico</span></td>
+                            <td>Fisura por fatiga de vibración o soltura de racores de acople.</td>
+                            <td>Fuga exterior de diésel sin presión de inyección. No detiene la máquina de inmediato, pero genera riesgo de incendio y contaminación.</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- FOTO 1: CIRCUITO GENERAL DE COMBUSTIBLE -->
+            <div class="img-placeholder">
+                <div class="img-instruction">📷 Reemplaza 'foto_combustible_esquema.png' con el esquema del sistema (de12t.pdf - Pág. 121)</div>
+                <img src="foto_combustible_esquema.png" alt="Esquema General del Sistema de Combustible Doosan">
+                <p><em>Figura 1: Diagrama de flujo del sistema de alimentación de combustible Doosan P126TI-II.</em></p>
+            </div>
+
+            <!-- 3. HORAS-HOMBRE Y HERRAMIENTAS -->
+            <div class="section-card">
+                <h2>🛠️ 3. Planificación de Trabajos, Horas-Hombre y Herramientas</h2>
+                
+                <div class="table-responsive">
+                    <table>
+                        <tr>
+                            <th>Trabajo de Mantenimiento</th>
+                            <th>Frecuencia Recomendada</th>
+                            <th>Dotación Mínima</th>
+                            <th>Duración</th>
+                            <th>Total Horas-Hombre</th>
+                        </tr>
+                        <tr>
+                            <td>Drenaje de agua y sedimentos del separador</td>
+                            <td>Cada 200 horas</td>
+                            <td>2 Operarios</td>
+                            <td>0.5 h</td>
+                            <td>1.0 HH</td>
+                        </tr>
+                        <tr>
+                            <td>Reemplazo de cartucho de filtro de combustible y limpieza del tamiz de la bomba de alimentación</td>
+                            <td>Cada 400 horas</td>
+                            <td>2 Operarios</td>
+                            <td>1.0 h</td>
+                            <td>2.0 HH</td>
+                        </tr>
+                        <tr>
+                            <td>Desmontaje, limpieza, prueba en banco (Pop Tester) y calibración de 6 inyectores</td>
+                            <td>Cada 1200 horas / Correctivo</td>
+                            <td>2 Operarios</td>
+                            <td>3.0 h</td>
+                            <td>6.0 HH</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <p><strong>Listado Específico de Herramientas y Equipamiento Técnico:</strong></p>
+                <ul>
+                    <li><strong>Herramientas Genéricas:</strong> Llaves punta y corona métricas de 10, 12, 14, 17 y 19 mm; destornilladores planos; cubeta receptora antiderrame; paños de limpieza libres de hilachas.</li>
+                    <li><strong>Herramientas Específicas del Fabricante:</strong>
+                        <ul>
+                            <li>Llave de correa o cadena para desenroscar cartuchos de filtro (Part No. EF.120-208 / herramienta estándar de taller).</li>
+                            <li>Extractor de toberas e inyectores (Part No. EF.123-082 Nozzle tube extractor).</li>
+                            <li>Herramienta de inserción de tubos de tobera (Part No. EF.123-082 Nozzle tube insert ass'y).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Instrumental de Medición con Calibración Vigente:</strong>
+                        <ul>
+                            <li><strong>Banco de Prueba de Inyectores (Pop Tester):</strong> Rango 0-400 kg/cm² con manómetro calibrado para contrastar presiones de apertura de 1ª etapa (160 kg/cm²) y 2ª etapa (220 kg/cm²).</li>
+                            <li><strong>Llave Dinamométrica (Torquímetro):</strong> Rango 1.0 a 10.0 kg·m con certificado de calibración vigente.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <p><strong>Torques de Apriete Específicos del Fabricante:</strong></p>
+                <ul>
+                    <li>Tuercas de fijación del porta-inyector a culata (espárragos M6 8.8T): <strong>1.0 kg·m</strong>.</li>
+                    <li>Tuercas de unión de cañería de alta presión (Spanner 17 mm): <strong>3.0 kg·m</strong>.</li>
+                    <li>Tuercas de unión de cañería de alta presión (Spanner 19 mm): <strong>4.0 kg·m</strong>.</li>
+                    <li>Tornillos huecos de la línea de retorno de combustible: <strong>1.0 a 1.5 kg·m</strong>.</li>
+                    <li>Pernos de acople de bomba de inyección: <strong>6.0 kg·m</strong>.</li>
+                </ul>
+            </div>
+
+            <!-- FOTO 2: INYECTOR Y DESPIECE -->
+            <div class="img-placeholder">
+                <div class="img-instruction">📷 Reemplaza 'foto_inyector_despiece.png' con el despiece del inyector (509833079-P126TI-DE12T-PARTBOOK.pdf - Pág. 128 o de12t.pdf - Pág. 143)</div>
+                <img src="foto_inyector_despiece.png" alt="Despiece de Inyector Doosan P126TI-II">
+                <p><em>Figura 2: Conjunto porta-inyector y tobera de inyección directa.</em></p>
+            </div>
+
+            <!-- 4. PROCEDIMIENTO PASO A PASO -->
+            <div class="section-card">
+                <h2>⚙️ 4. Procedimiento de Mantenimiento Paso a Paso</h2>
+
+                <div class="step-block">
+                    <h3>Fase 1: Bloqueo, Aislamiento y Drenaje Inicial</h3>
+                    <p>1. Ejecutar el Protocolo LOTO: Cerrar la válvula de bola en la salida del estanque de servicio diario de 470 L. Colocar candado y tarjeta en la válvula. Desconectar el borne negativo de la batería de 24V del grupo electrógeno.<br>
+                    2. Colocar una cubeta bajo el prefiltro separador de agua. Girar la válvula manual inferior en sentido antihorario 2 a 3 vueltas. Drenar el agua acumulada y los lodos hasta observar flujo de diésel limpio. Apretar la válvula a mano con suavidad para no dañar los hilos plásticos.<br>
+                    3. Si se interviene el estanque de servicio, abrir el grifo inferior de fondo para purgar el agua de condensación acumulada en el fondo del depósito.</p>
+                </div>
+
+                <!-- FOTO 3: FILTRO DE COMBUSTIBLE -->
+                <div class="img-placeholder">
+                    <div class="img-instruction">📷 Reemplaza 'foto_filtro_combustible.png' con el esquema del filtro (de12t.pdf - Pág. 15 o Pág. 35)</div>
+                    <img src="foto_filtro_combustible.png" alt="Filtro de Combustible y Purga de Agua">
+                    <p><em>Figura 3: Filtro de combustible con separador y tapón de drenaje inferior.</em></p>
+                </div>
+
+                <div class="step-block">
+                    <h3>Fase 2: Reemplazo de Filtros y Limpieza del Tamiz de la Bomba</h3>
+                    <p>1. Limpiar cuidadosamente la cabeza del soporte del filtro de combustible para evitar que caigan partículas al interior.<br>
+                    2. Con la llave de filtro, desenroscar el cartucho usado girándolo en sentido antihorario. Desechar el anillo de sello usado.<br>
+                    3. Limpiar la superficie de asiento de la junta con un paño limpio sin hilachas.<br>
+                    4. Lubricar la junta de goma del nuevo cartucho con aceite limpio. Llenar el nuevo filtro con combustible diésel limpio antes de instalarlo para reducir el aire retenido en el sistema.<br>
+                    5. Enroscar el filtro a mano hasta que la junta tome contacto con la base. Ajustar entre 1/2 y 3/4 de vuelta adicional utilizando la llave de filtro (no sobreapretar para no deformar el cuerpo o dañar el sello).<br>
+                    6. Desarmar el perno de unión en la entrada de la bomba de alimentación (feed pump). Retirar el tamiz de malla metálica interior (strainer), limpiarlo con aire comprimido y lavarlo en combustible diésel limpio. Reinstalar con golillas de cobre nuevas.</p>
+                </div>
+
+                <!-- FOTO 4: BOMBA Y STRAINER -->
+                <div class="img-placeholder">
+                    <div class="img-instruction">📷 Reemplaza 'foto_bomba_cebador.png' con la bomba de alimentación y cebador (de12t.pdf - Pág. 37)</div>
+                    <img src="foto_bomba_cebador.png" alt="Bomba de Alimentación y Tamiz de Entrada">
+                    <p><em>Figura 4: Bomba de alimentación de combustible, cebador manual y ubicación del tamiz interior.</em></p>
+                </div>
+
+                <div class="step-block">
+                    <h3>Fase 3: Mantenimiento de Inyectores y Cañerías de Alta Presión</h3>
+                    <p>1. Desconectar los tornillos huecos de la línea de retorno superior de los inyectores.<br>
+                    2. Soltar las tuercas de las cañerías rígidas de alta presión en el inyector y en la bomba Zexel usando llave de 17 mm. Mantener las cañerías protegidas con tapones plásticos para evitar ingreso de suciedad.<br>
+                    3. Retirar las tuercas del flange de fijación del inyector (M6). Extraer con suavidad el porta-inyector de la culata.<br>
+                    4. Inspeccionar la tobera: verificar que los 5 orificios estén limpios de carbón. Montar el inyector en el banco de pruebas (Pop Tester) para comprobar estanqueidad a 200 bar (no debe gotear) y verificar la presión de apertura inicial (160 kg/cm²) y secundaria (220 kg/cm²). Comprobar patrón de atomización cónico y homogéneo.<br>
+                    5. Instalar un nuevo anillo de sello de cobre (0.5 mm) en el fondo del alojamiento de la culata y sello guardapolvo de goma nuevo.<br>
+                    6. Posicionar el inyector e instalar las tuercas de sujeción apretando uniformemente con torquímetro calibrado a <strong>1.0 kg·m</strong>.<br>
+                    7. Reinstalar las cañerías de alta presión. Apretar las uniones con torquímetro a <strong>3.0 kg·m</strong> (para tuercas de 17 mm) o <strong>4.0 kg·m</strong> (para tuercas de 19 mm). Conectar la línea de retorno con pernos huecos torqueados a <strong>1.0 - 1.5 kg·m</strong>.</p>
+                </div>
+
+                <div class="step-block">
+                    <h3>Fase 4: Sangrado y Purga de Aire del Sistema</h3>
+                    <p>1. Abrir la válvula de suministro del estanque diario de combustible.<br>
+                    2. Aflojar los tornillos de purga de aire ubicados en la parte superior del cuerpo del filtro de combustible y el tornillo de sangrado en la bomba de inyección.<br>
+                    3. Desenroscar y accionar repetidamente el bombín cebador manual (priming pump) de la bomba de alimentación.<br>
+                    4. Bombear de manera continua hasta que el combustible fluya libre de burbujas de aire por los tornillos de sangrado.<br>
+                    5. Cerrar firmemente los tornillos de purga del filtro y de la bomba mientras se mantiene bombeando.<br>
+                    6. Presionar y enroscar la tapa del cebador manual para fijarlo en su posición de reposo hermética.</p>
+                </div>
+
+                <div class="step-block">
+                    <h3>Fase 5: Gestión Ambiental de Residuos (Anexo I MARPOL)</h3>
+                    <p>Todo residuo generado durante la mantención del sistema de combustible (filtros de diésel saturados, paños contaminados con hidrocarburo y combustible drenado de purgas) debe ser contenido en bandejas metálicas y vertido en tambores rotulados de Residuos Peligrosos (RESPEL). En instalaciones marítimas y de sala de máquinas, estos desechos se rigen por el <strong>Anexo I del Convenio MARPOL</strong> (Prevención de la contaminación por hidrocarburos), quedando estrictamente prohibido su vertimiento a sentinas, canaletas abiertas o drenajes generales.</p>
+                </div>
+            </div>
+
+            <!-- 5. CHECKLIST DE RE-COMISIONAMIENTO -->
+            <div class="section-card">
+                <h2>✅ 5. Checklist de Puesta en Servicio (Re-comisionamiento)</h2>
+                <p>Ejecute y valide visualmente cada ítem antes de reincorporar el grupo electrógeno a servicio de emergencia:</p>
+                
+                <div class="checklist-container">
+                    <label class="check-item"><input type="checkbox"> Inspección 360° completada: herramientas, bandejas y paños retirados del área del motor.</label>
+                    <label class="check-item"><input type="checkbox"> Válvula de salida del estanque de servicio de 470 L completamente abierta.</label>
+                    <label class="check-item"><input type="checkbox"> Nivel de combustible verificado en el estanque (>75% de capacidad para autonomía de emergencia).</label>
+                    <label class="check-item"><input type="checkbox"> Retiro formal de candados y tarjetas LOTO de válvulas y cortacorrientes.</label>
+                    <label class="check-item"><input type="checkbox"> Conexión de baterías de 24V restablecida (conectar borne positivo primero, negativo al final).</label>
+                    <label class="check-item"><input type="checkbox"> Purga de aire verificada; tornillos de sangrado y cebador manual cerrados y asegurados.</label>
+                    <label class="check-item"><input type="checkbox"> Verificación del panel APM303: encendido normal sin alarmas activas de combustible (código de falla E11 inactivo).</label>
+                    <label class="check-item"><input type="checkbox"> Partida del motor ejecutada en modo MANUAL (botón verde de arranque). Confirmar encendido parejo sin cabeceo de inyección.</label>
+                    <label class="check-item"><input type="checkbox"> Inspección visual bajo marcha: verificar ausencia absoluta de fugas o goteos en cañerías rígidas, inyectores, sellos de filtro y línea de retorno.</label>
+                    <label class="check-item"><input type="checkbox"> Estabilización confirmada a 1500 RPM y 50 Hz sin humo negro persistente en la chimenea de escape.</label>
+                    <label class="check-item"><input type="checkbox"> Selector de modo del panel APM303 colocado en posición AUTO. Equipo en standby operativo.</label>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // 10 Preguntas sobre Seguridad, LOTO y Combustible Diésel
+        const allQuestions = [
+            { 
+                q: "¿Cuál es el riesgo personal más grave al manipular cañerías rígidas o toberas bajo presión de combustible?", 
+                options: ["Mancharse el overol de faena", "Inyección subcutánea de diésel a alta presión en los tejidos", "Pérdida de la señal en el panel APM303"], 
+                ans: 1 
+            },
+            { 
+                q: "Antes de desarmar cañerías o filtros de diésel, ¿cuál es el primer paso obligatorio de LOTO mecánico?", 
+                options: ["Cerrar y bloquear la válvula de suministro del estanque de combustible", "Abrir el grifo de purga de agua", "Acelerar el motor manualmente"], 
+                ans: 0 
+            },
+            { 
+                q: "Para evitar la partida intempestiva del grupo por el actuador o partida remota durante el mantenimiento, se debe:", 
+                options: ["Desconectar solo el cargador de pared", "Desconectar y bloquear el borne negativo de la batería de 24V", "Tocar la bocina de alarma"], 
+                ans: 1 
+            },
+            { 
+                q: "¿Qué tipo de extintor de incendios debe estar inmediatamente disponible al intervenir el circuito de combustible?", 
+                options: ["Extintor de Agua Presurizada (Clase A)", "Extintor de Polvo Químico Seco (PQS) o CO2 (Clase B)", "Manguera de agua dulce del taller"], 
+                ans: 1 
+            },
+            { 
+                q: "¿Cómo se debe despresurizar el circuito de baja presión antes de soltar un racor o filtro?", 
+                options: ["Golpeando las cañerías con un martillo", "Aflojando lentamente los tornillos de purga con paño envolvente", "Desconectando la línea de inyectores a la fuerza"], 
+                ans: 1 
+            },
+            { 
+                q: "Según la normativa marítima y ambiental (Anexo I MARPOL), ¿dónde deben depositarse los filtros y trapos empapados en diésel?", 
+                options: ["En el basurero municipal común", "En tambores cerrados y rotulados de Residuos Peligrosos (RESPEL)", "En la sentina del laboratorio"], 
+                ans: 1 
+            },
+            { 
+                q: "Al montar y apretar el nuevo filtro de combustible en su base roscada:", 
+                options: ["Se engrasa con grasa grafitada y se aprieta con tubo de palanca", "Se lubrica el sello con aceite limpio, se ajusta a mano y se da 1/2 a 3/4 de vuelta con llave", "Se aprieta hasta que la goma se reviente"], 
+                ans: 1 
+            },
+            { 
+                q: "¿Por qué está estrictamente prohibido usar ropa con fibras sintéticas (como polar o nylon) al intervenir diésel?", 
+                options: ["Porque son telas calurosas", "Porque generan electricidad estática que puede provocar chispa e ignición de vapores", "Porque no combinan con el calzado"], 
+                ans: 1 
+            },
+            { 
+                q: "¿Cuántas personas deben conformar obligatoriamente la cuadrilla para realizar el mantenimiento del sistema de combustible?", 
+                options: ["1 persona para ahorrar horas-hombre", "2 personas calificadas en todo momento", "Cualquier persona que esté desocupada"], 
+                ans: 1 
+            },
+            { 
+                q: "Después de armar el sistema y antes de dar arranque al motor, ¿qué maniobra técnica es indispensable para evitar fallas?", 
+                options: ["Purgar y sangrar completamente el aire del circuito usando el cebador manual", "Pintar los inyectores de color rojo", "Echar solvente dentro del estanque"], 
+                ans: 0 
+            }
+        ];
+
+        let currentQuestions = [];
+
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        function loadQuiz() {
+            document.getElementById('error-msg').style.display = 'none';
+            const wrapper = document.getElementById('questions-wrapper');
+            wrapper.innerHTML = '';
+            
+            // Desmarcar checkboxes del EPP
+            const eppChecks = document.querySelectorAll('.epp-check');
+            eppChecks.forEach(cb => cb.checked = false);
+
+            // Seleccionar 5 preguntas al azar de las 10
+            currentQuestions = shuffle([...allQuestions]).slice(0, 5);
+            
+            currentQuestions.forEach((item, index) => {
+                let html = `<div class="question">
+                    <h4>Pregunta ${index + 1}: ${item.q}</h4>
+                    <div class="options">`;
+                
+                item.options.forEach((opt, i) => {
+                    html += `<label><input type="radio" name="q${index}" value="${i}"> ${opt}</label>`;
+                });
+                
+                html += `</div></div>`;
+                wrapper.innerHTML += html;
+            });
+        }
+
+        function checkGate() {
+            // 1. Validar Checklist de EPP (Deben estar todos marcados)
+            const eppChecks = document.querySelectorAll('.epp-check');
+            let eppComplete = true;
+            eppChecks.forEach(cb => {
+                if (!cb.checked) eppComplete = false;
+            });
+
+            // 2. Validar Cuestionario
+            let score = 0;
+            let answeredAll = true;
+
+            for (let i = 0; i < 5; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!selected) {
+                    answeredAll = false;
+                    break;
+                }
+                if (parseInt(selected.value) === currentQuestions[i].ans) {
+                    score++;
+                }
+            }
+
+            if (!answeredAll) {
+                alert("Por favor, responda las 5 preguntas de seguridad antes de verificar.");
+                return;
+            }
+
+            // Si aprobó las preguntas (5/5) y marcó todos los EPP (7/7)
+            if (score === 5 && eppComplete) {
+                document.getElementById('survey-container').style.display = 'none';
+                document.getElementById('manual-container').style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                document.getElementById('error-msg').style.display = 'block';
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }
+        }
+
+        window.onload = loadQuiz;
+    </script>
+</body>
+</html>
